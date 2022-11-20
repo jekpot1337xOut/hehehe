@@ -172,12 +172,19 @@ def cms(url):
 			open('CMS/vBulletin.txt', 'a').write(url+'\n')					
     except :
         pass
+    try:		
 		
+		Checktwo = requests.get(url, timeout=5)
+		if "Laravel" in Checktwo.text.encode('utf-8') or "XSRF-TOKEN" in Checktwo.text.encode('utf-8'):
+			print "\033[92m[Laravel] \033[92mURL:",url
+			open('CMS/Laravel.txt', 'a').write(url+'\n')					
+    except :
+        pass
 	
 def Main():
     try:
         start = timer()
-        ThreadPool = Pool(100)
+        ThreadPool = Pool(500)
         Threads = ThreadPool.map(cms, sites)
         print('Finished in : ' + str(timer() - start) + ' seconds')
     except :
